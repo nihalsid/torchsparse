@@ -35,10 +35,9 @@ for fpath in glob.glob(os.path.join("torchsparse", "backend", "**", "*")):
 
 extension_type = CUDAExtension if device == "cuda" else CppExtension
 extra_compile_args = {
-    "cxx": ["-g", "-O3", "-fopenmp", "-lgomp"],
-    "nvcc": ["-O3", "-std=c++17"],
+    'cxx': ['-g', '-O3', '-fopenmp', '-lgomp', "-I" + os.environ.get("SPHASH_INCLUDE", "")],
+    "nvcc": ['-O3', "-std=c++17", "-I" + os.environ.get("CUDA_INCLUDE", ""), "-I" + os.path.join(os.path.dirname(os.path.abspath(__file__)), "third_party/glm/")]
 }
-
 setup(
     name="torchsparse",
     version=version,
